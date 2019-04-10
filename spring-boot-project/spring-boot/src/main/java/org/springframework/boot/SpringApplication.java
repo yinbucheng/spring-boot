@@ -264,7 +264,6 @@ public class SpringApplication {
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
-
 	private Class<?> deduceMainApplicationClass() {
 		try {
 			StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
