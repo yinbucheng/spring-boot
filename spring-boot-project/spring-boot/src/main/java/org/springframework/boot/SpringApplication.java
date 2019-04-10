@@ -261,6 +261,7 @@ public class SpringApplication {
 				ApplicationContextInitializer.class));
 		//从spring.factories中获取ApplicationListener的实现类
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+		//获取启动类的类对象
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
@@ -292,6 +293,7 @@ public class SpringApplication {
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		configureHeadlessProperty();
+		//从spring.factoreis中获取SpringApplicationRunListener实现类(这里会加载EventPublishingRunListener类)
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
