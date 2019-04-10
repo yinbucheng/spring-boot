@@ -594,6 +594,7 @@ public class SpringApplication {
 						ex);
 			}
 		}
+		//这里会创建AnnotationConfigServletWebServerApplicationContext上下文实例，这个实例在默认构造方法时会创建DefaultListableBeanFactory（ioc容器）
 		return (ConfigurableApplicationContext) BeanUtils.instantiateClass(contextClass);
 	}
 
