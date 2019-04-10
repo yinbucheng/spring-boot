@@ -178,9 +178,12 @@ public class ConfigFileApplicationListener
 
 	private void onApplicationEnvironmentPreparedEvent(
 			ApplicationEnvironmentPreparedEvent event) {
+		//从spring.factories中加载EnvironmentPostProcessor的实现类
 		List<EnvironmentPostProcessor> postProcessors = loadPostProcessors();
+		//由于ConfigFileApplicationListener本身就实现EnvironmentPostProcessor（所以将自己也添加到集合中）
 		postProcessors.add(this);
 		AnnotationAwareOrderComparator.sort(postProcessors);
+		//遍历调用EnvironmentPostProcessor上面的postProcessEnvironment方法
 		for (EnvironmentPostProcessor postProcessor : postProcessors) {
 			postProcessor.postProcessEnvironment(event.getEnvironment(),
 					event.getSpringApplication());
@@ -318,6 +321,7 @@ public class ConfigFileApplicationListener
 			this.environment = environment;
 			this.resourceLoader = (resourceLoader != null) ? resourceLoader
 					: new DefaultResourceLoader();
+			//从spring.factories中加载PropertySourceLoader的所有实现类
 			this.propertySourceLoaders = SpringFactoriesLoader.loadFactories(
 					PropertySourceLoader.class, getClass().getClassLoader());
 		}

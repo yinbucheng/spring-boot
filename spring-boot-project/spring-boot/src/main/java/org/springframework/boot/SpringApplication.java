@@ -406,6 +406,8 @@ public class SpringApplication {
 
 	private SpringApplicationRunListeners getRunListeners(String[] args) {
 		Class<?>[] types = new Class<?>[] { SpringApplication.class, String[].class };
+		//创建SpringApplicationRunListeners对象其持有SpringApplicationRunListener集合,这里会加载EventPublishingRunListener类
+		//注意这里getSpringFactoriesInstance是三个参数，其中后面为参数类型 其他为进行实例化时需要的参数
 		return new SpringApplicationRunListeners(logger, getSpringFactoriesInstances(
 				SpringApplicationRunListener.class, types, this, args));
 	}
