@@ -73,6 +73,7 @@ public class AnnotationConfigReactiveWebServerApplicationContext
 	 * {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigReactiveWebServerApplicationContext() {
+		//在AnnotatedBeanDefinitionReader中的构造方法会将初始化需要的对象存放到IOC容器中比如ConfigurationClassPostProcessor
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}

@@ -303,6 +303,7 @@ public class SpringApplication {
 					applicationArguments);
 			configureIgnoreBeanInfo(environment);
 			Banner printedBanner = printBanner(environment);
+			//这里会创建上下文对象，其中上下文对象会持有DefaultListableBeanFactory IOC容器,并且会将一些类注册到容器中比如ConfigurationClassPostProcessor
 			context = createApplicationContext();
 			exceptionReporters = getSpringFactoriesInstances(
 					SpringBootExceptionReporter.class,
