@@ -259,7 +259,7 @@ public class SpringApplication {
 		//从spring.factories中获取ApplicationContextInitializer实现类
 		setInitializers((Collection) getSpringFactoriesInstances(
 				ApplicationContextInitializer.class));
-		//从spring.factories中获取ApplicationListener的实现类
+		//从spring.factories中获取ApplicationListener的实现类 这里包括ConfigFileApplicationListener
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		//获取启动类的类对象
 		this.mainApplicationClass = deduceMainApplicationClass();
@@ -299,6 +299,7 @@ public class SpringApplication {
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
 					args);
+			//加载配置文件和EnvironmentPostProcessor调用这里核心类是ConfigFileApplicationListener
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,
 					applicationArguments);
 			configureIgnoreBeanInfo(environment);
@@ -317,7 +318,9 @@ public class SpringApplication {
 				new StartupInfoLogger(this.mainApplicationClass)
 						.logStarted(getApplicationLog(), stopWatch);
 			}
+			//向application广播器中广播ApplicationStartedEvent事件
 			listeners.started(context);
+			//调用ApplicationRunner和CommandLineRunner上面的run方法
 			callRunners(context, applicationArguments);
 		}
 		catch (Throwable ex) {
@@ -774,13 +777,16 @@ public class SpringApplication {
 
 	private void callRunners(ApplicationContext context, ApplicationArguments args) {
 		List<Object> runners = new ArrayList<>();
+		//获取所有的ApplicationRunner和CommandLineRunner并进行排序
 		runners.addAll(context.getBeansOfType(ApplicationRunner.class).values());
 		runners.addAll(context.getBeansOfType(CommandLineRunner.class).values());
 		AnnotationAwareOrderComparator.sort(runners);
 		for (Object runner : new LinkedHashSet<>(runners)) {
+			//先调用ApplicationRunner上面的方法
 			if (runner instanceof ApplicationRunner) {
 				callRunner((ApplicationRunner) runner, args);
 			}
+			//再调用CommandLineRunner上面的方法
 			if (runner instanceof CommandLineRunner) {
 				callRunner((CommandLineRunner) runner, args);
 			}
