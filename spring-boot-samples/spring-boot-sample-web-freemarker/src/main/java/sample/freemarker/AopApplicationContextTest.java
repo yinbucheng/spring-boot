@@ -8,11 +8,11 @@ import sample.freemarker.bean.ConfigurationClass;
 import sample.freemarker.bean.TestBean;
 
 /**
- * @ClassName AopTest
+ * @ClassName AopApplicationContextTest
  * @Author buchengyin
  * @Date 2019/4/25 19:48
  **/
-public class AopTest {
+public class AopApplicationContextTest {
 	public static void main(String[] args) {
 		DefaultListableBeanFactory iocFactory = new DefaultListableBeanFactory();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(iocFactory);
