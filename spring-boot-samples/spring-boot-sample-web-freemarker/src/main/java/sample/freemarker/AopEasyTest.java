@@ -14,6 +14,7 @@ public class AopEasyTest {
 	public static void main(String[] args) {
 		TestBean testBean = new TestBean();
 		ProxyFactory proxyFactory = new ProxyFactory();
+		//添加拦截器
 		proxyFactory.addAdvice(new MethodInterceptor() {
 			@Override
 			public Object invoke(MethodInvocation methodInvocation) throws Throwable {
@@ -21,6 +22,14 @@ public class AopEasyTest {
 				return methodInvocation.proceed();
 			}
 		});
+		proxyFactory.addAdvice(new MethodInterceptor() {
+			@Override
+			public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+				System.out.println("---------------------->lalala<-----------------------");
+				return methodInvocation.proceed();
+			}
+		});
+		//添加目标对象
 		proxyFactory.setTarget(testBean);
 		TestBean proxy = (TestBean)proxyFactory.getProxy();
 		proxy.test();
